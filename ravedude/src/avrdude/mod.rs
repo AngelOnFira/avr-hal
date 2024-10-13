@@ -48,6 +48,9 @@ impl Avrdude {
         port: Option<impl AsRef<path::Path>>,
         bin: &path::Path,
         debug: bool,
+        lfuse: Option<&str>,
+        hfuse: Option<&str>,
+        efuse: Option<&str>,
     ) -> anyhow::Result<Self> {
         let avrdude_version = Self::get_avrdude_version()?;
 
@@ -120,6 +123,16 @@ impl Avrdude {
                     .collect::<Vec<_>>()
                     .join(" ")
             );
+        }
+
+        if let Some(lfuse) = lfuse.or(options.lfuse.as_deref()) {
+            command = command.arg("-U").arg(format!("lfuse:w:{}:m", lfuse));
+        }
+        if let Some(hfuse) = hfuse.or(options.hfuse.as_deref()) {
+            command = command.arg("-U").arg(format!("hfuse:w:{}:m", hfuse));
+        }
+        if let Some(efuse) = efuse.or(options.efuse.as_deref()) {
+            command = command.arg("-U").arg(format!("efuse:w:{}:m", efuse));
         }
 
         let process = command.spawn().context("failed starting avrdude")?;

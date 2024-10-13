@@ -238,3 +238,16 @@
     [duemilanove.usb-info]
     # No IDs here because the Nano 168 uses a generic USB-Serial chip.
     error = "Not able to guess port"
+
+[attiny85]
+    name = "ATtiny85"
+
+    [attiny85.reset]
+    automatic = true
+
+    [attiny85.avrdude]
+    programmer = "avrisp"  # Common for ATtiny85, but adjust if using a different programmer
+    partno = "t85"
+    baudrate = 19200  # No baudrate needed for usbtiny
+    do-chip-erase = true
+

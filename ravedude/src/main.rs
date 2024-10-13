@@ -69,6 +69,15 @@ struct Args {
     /// Should not be used in newer configurations.
     #[structopt(name = "LEGACY BINARY", parse(from_os_str))]
     bin_legacy: Option<std::path::PathBuf>,
+
+    #[structopt(long = "lfuse")]
+    lfuse: Option<String>,
+
+    #[structopt(long = "hfuse")]
+    hfuse: Option<String>,
+
+    #[structopt(long = "efuse")]
+    efuse: Option<String>,
 }
 impl Args {
     /// Get the board name for legacy configurations.
@@ -221,6 +230,9 @@ fn ravedude() -> anyhow::Result<()> {
             port.as_ref(),
             bin,
             args.debug_avrdude,
+            args.lfuse.as_deref(),
+            args.hfuse.as_deref(),
+            args.efuse.as_deref(),
         )?;
         avrdude.wait()?;
 

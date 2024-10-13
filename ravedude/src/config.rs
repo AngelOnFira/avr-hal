@@ -131,7 +131,11 @@ pub struct BoardAvrdudeOptions {
     // Option<if baudrate == -1 { None } else { NonZeroU32(baudrate) }>
     pub baudrate: Option<Option<NonZeroU32>>,
     pub do_chip_erase: Option<bool>,
+    pub lfuse: Option<String>,
+    pub hfuse: Option<String>,
+    pub efuse: Option<String>,
 }
+
 impl BoardAvrdudeOptions {
     pub fn merge(self, base: Self) -> Self {
         Self {
@@ -139,6 +143,9 @@ impl BoardAvrdudeOptions {
             partno: self.partno.or(base.partno),
             baudrate: self.baudrate.or(base.baudrate),
             do_chip_erase: self.do_chip_erase.or(base.do_chip_erase),
+            lfuse: self.lfuse.or(base.lfuse),
+            hfuse: self.hfuse.or(base.hfuse),
+            efuse: self.efuse.or(base.efuse),
         }
     }
 }
